@@ -27,6 +27,7 @@ public:
     ~board();
     void draw();
     bool applyMove(int move, bool isRed);
+    int evaluateBoard();
 };
 
 
