@@ -39,15 +39,15 @@ int main()
             gameBoard.applyMove(move, isRed);
             gameBoard.draw();
             
-            std::cout << "This board has a score of: " << opponent.evaluateBoard(gameBoard) << std::endl;
+            std::cout << "This board has a score of: " << gameBoard.evaluateBoard() << std::endl;
             
             isRed = !isRed;
             
-            if(opponent.evaluateBoard(gameBoard) == WINNING_SCORE){
+            if(gameBoard.evaluateBoard() == WINNING_SCORE){
                 std::cout << "Red Wins!";
                 break;
             }
-            else if(opponent.evaluateBoard(gameBoard) == -WINNING_SCORE){
+            else if(gameBoard.evaluateBoard() == -WINNING_SCORE){
                 std::cout << "Yellow Wins!";
                 break;
             }

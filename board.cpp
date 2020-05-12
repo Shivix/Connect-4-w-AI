@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 #include "board.hpp"
 board::board(){
     emptyGameRow.reserve(BOARD_WIDTH);
@@ -71,4 +72,202 @@ bool board::applyMove(int movePos, bool isRed){
 
 
 
+int board::evaluateBoard(){
+    int evaluation = 0;
+    bool gameWon = false;
+
+    // loop through all game positions
+    for(int heightCounter = 0; heightCounter < BOARD_HEIGHT; ++heightCounter){
+        for(int widthCounter = 0; widthCounter < BOARD_WIDTH; ++widthCounter){
+            //                          check for east connect                          
+
+            // if test area is not within board, skip
+
+            if((widthCounter + BOARD_CONNECT - 1) < BOARD_WIDTH){
+
+                int groupCount = 0;
+                int groupType = board::empty;
+                for(int emptyCounter = 0; emptyCounter < BOARD_CONNECT; ++emptyCounter){
+                    if(boardVec[(heightCounter)][(widthCounter + emptyCounter)] != board::empty){ // if test area is not empty, skip
+                        ++groupCount;
+
+                        if(groupType == board::empty){
+                            if(boardVec[heightCounter][widthCounter + emptyCounter] == board::red){
+                                groupType = board::red;
+                            }
+                            else{
+                                groupType = board::yellow;
+                            }
+                        }
+                        else{
+                            if((groupType == board::red && boardVec[heightCounter][widthCounter + emptyCounter] == board::yellow)
+                               ||(groupType == board::yellow && boardVec[heightCounter][widthCounter + emptyCounter] == board::red)){
+                                groupType = board::both;
+                            }
+                        }
+                    }
+                }
+
+                // calculate score (- for yellow + for red)
+
+                if(groupCount > 0 && groupType != board::both){
+                    int groupScore = static_cast<int>(pow(groupCount, 4));
+
+                    if(groupCount == BOARD_CONNECT){
+                        groupScore = WINNING_SCORE;
+                        gameWon = true;
+                    }
+
+                    if(groupType == board::yellow){
+                        groupScore = -groupScore;
+                    }
+                    evaluation += groupScore;
+                }
+            }
+
+            //                                                  check for south connect                                                                
+
+            if((heightCounter + BOARD_CONNECT - 1) < BOARD_HEIGHT){
+
+                int groupCount = 0;
+                int groupType = board::empty;
+                for(auto emptyCounter = 0; emptyCounter < BOARD_CONNECT; ++emptyCounter){
+                    // if test area is not empty, skip
+                    if(boardVec[heightCounter + emptyCounter][widthCounter] != board::empty){
+                        ++groupCount;
+
+                        if(groupType == board::empty){
+                            if(boardVec[heightCounter + emptyCounter][widthCounter] == board::red){
+                                groupType = board::red;
+                            }
+                            else{
+                                groupType = board::yellow;
+                            }
+                        }
+                        else{
+                            if((groupType == board::red && this->boardVec[heightCounter + emptyCounter][widthCounter] == board::yellow)
+                               ||(groupType == board::yellow && this->boardVec[heightCounter + emptyCounter][widthCounter] == board::red)){
+                                groupType = board::both;
+                            }
+                        }
+                    }
+                }
+
+                // calculate score (-for yellow + for red)
+
+                if(groupCount > 0 && groupType != board::both){
+                    int groupScore = static_cast<int>(pow(groupCount, 2));
+
+                    if(groupCount == BOARD_CONNECT){
+                        groupScore = WINNING_SCORE;
+                        gameWon = true;
+                    }
+
+                    if(groupType == board::yellow){
+                        groupScore = -groupScore;
+                    }
+                    evaluation += groupScore;
+                }
+            }
+
+            //                                      check for south east connect                                     
+            if(((heightCounter + BOARD_CONNECT - 1) < BOARD_HEIGHT) && ((widthCounter + BOARD_CONNECT - 1) < BOARD_WIDTH)){
+
+                int groupCount = 0;
+                int groupType = board::empty;
+                for(auto emptyCounter = 0; emptyCounter < BOARD_CONNECT; ++emptyCounter){
+
+                    if(boardVec[heightCounter + emptyCounter][widthCounter + emptyCounter] != board::empty){     // if test area is not empty, skip
+                        ++groupCount;
+
+                        if(groupType == board::empty){
+                            if(boardVec[heightCounter + emptyCounter][widthCounter + emptyCounter] == board::red){
+                                groupType = board::red;
+                            }
+                            else{
+                                groupType = board::yellow;
+                            }
+                        }
+                        else{
+                            if((groupType == board::red && this->boardVec[heightCounter + emptyCounter][widthCounter + emptyCounter] == board::yellow)
+                               ||(groupType == board::yellow && this->boardVec[heightCounter + emptyCounter][widthCounter + emptyCounter] == board::red)){
+                                groupType = board::both;
+                            }
+                        }
+                    }
+                }
+
+                // calculate score (-for yellow + for red)
+
+                if(groupCount > 0 && groupType != board::both){
+                    int groupScore = static_cast<int>(pow(groupCount, 2));
+
+                    if(groupCount == BOARD_CONNECT){
+                        groupScore = WINNING_SCORE;
+                        gameWon = true;
+                    }
+
+                    if(groupType == board::yellow){
+                        groupScore = -groupScore;
+                    }
+                    evaluation += groupScore;
+                }
+            }
+            //                                          check for south west connect                                                
+            if(((heightCounter + BOARD_CONNECT - 1) < BOARD_HEIGHT) && ((widthCounter - BOARD_CONNECT + 1) >= 0)){
+
+                int groupCount = 0;
+                int groupType = board::empty;
+                for(auto emptyCounter = 0; emptyCounter < BOARD_CONNECT; ++emptyCounter){
+                    // if test area is not empty, skip
+                    if(boardVec[heightCounter + emptyCounter][widthCounter + -emptyCounter] != board::empty){
+                        ++groupCount;
+
+                        if(groupType == board::empty){
+                            if(boardVec[heightCounter + emptyCounter][widthCounter + -emptyCounter] == board::red){
+                                groupType = board::red;
+                            }
+                            else{
+                                groupType = board::yellow;
+                            }
+                        }
+                        else{
+                            if((groupType == board::red && this->boardVec[heightCounter + emptyCounter][widthCounter + -emptyCounter] == board::yellow)
+                               ||(groupType == board::yellow && this->boardVec[heightCounter + emptyCounter][widthCounter + -emptyCounter] == board::red)){
+                                groupType = board::both;
+                            }
+                        }
+                    }
+                }
+
+                // calculate score (-for yellow + for red)
+
+                if(groupCount > 0 && groupType != board::both){
+                    int groupScore = static_cast<int>(pow(groupCount, 2));
+
+                    if(groupCount == BOARD_CONNECT){
+                        groupScore = WINNING_SCORE;
+                        gameWon = true;
+                    }
+
+                    if(groupType == board::yellow){
+                        groupScore = -groupScore;
+                    }
+                    evaluation += groupScore;
+                }
+            }
+        }
+    }
+
+    //                  Check if game won                   
+    if(gameWon){
+        if(evaluation > 0){
+            evaluation = WINNING_SCORE;
+        }
+        else{
+            evaluation = -WINNING_SCORE;
+        }
+    }
+    return evaluation;
+}
 
