@@ -13,14 +13,14 @@
 
 class board{
 public:
-    enum counter {
-        red = 0,
-        yellow,
-        empty,
-        both
+    enum class counter {
+        red = -1,
+        yellow = 1,
+        empty = 0,
+        both = 2
     };
-    std::vector<std::vector<int>> boardVec;
-    std::vector<int> emptyGameRow;
+    std::vector<std::vector<counter>> boardVec;
+    std::vector<counter> emptyGameRow;
     
 public:
     board();
