@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include "board.hpp"
+
 board::board(){
     emptyGameRow.reserve(BOARD_WIDTH);
     for(int i = 0; i < BOARD_WIDTH; i++){

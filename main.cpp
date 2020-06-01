@@ -6,7 +6,8 @@ int main()
 {
     board gameBoard;
     opponent opponent;
-
+    std::cout << "Welcome to Connect 4. Please type how many turns you would like the AI to look ahead:";
+    std::cin >> opponent::searchDepth;
     gameBoard.draw();
     int move = -1;
     bool isRed = true;
@@ -32,7 +33,7 @@ int main()
                 //                                       minimax move                       
                 int alpha = -WINNING_SCORE;
                 int beta = WINNING_SCORE;
-                move = opponent.miniMax(gameBoard, SEARCH_DEPTH, SEARCH_DEPTH, false, alpha, beta);
+                move = opponent.miniMax(gameBoard, opponent::searchDepth, opponent::searchDepth, false, alpha, beta);
                 std::cout << move << "\n";
             }
 

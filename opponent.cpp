@@ -1,11 +1,12 @@
 #include <iostream>
-#include <cmath>
 #include "opponent.hpp"
 
 
 opponent::opponent() = default;
 
 opponent::~opponent() = default;
+
+int opponent::searchDepth = -1;
 
 int opponent::miniMax(board gameBoard, int depth, int depthPos, bool isRed, int alpha, int beta){ // uses multiple parameters for use with recursion
     if(depthPos == 0){

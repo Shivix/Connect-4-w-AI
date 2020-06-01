@@ -6,15 +6,11 @@
 class opponent{
 public:
     opponent();
-    
     ~opponent();
     
+static int searchDepth;
 
-private:
-
-public:
-    int miniMax(board gameBoard, int depth, int depthPos, bool isRed, int alpha, int beta); 
-
+    int miniMax(board gameBoard, int depth, int depthPos, bool isRed, int alpha, int beta);
 };
 
 
