@@ -2,6 +2,15 @@
 
 A connect 4 game with an AI using the Minimax decision rule with alpha beta pruning for efficiency.
 
+## Usage
+
+The AI will look a set amount of turns ahead which will be set at the start of the program.
+
+Once it asks for your move you can type in a number between 0 and 6 to choose which column to place 
+the counter in. (each column will be labeled)
+
+The game will end once their are 4 connecting counters of the same colour.
+
 ## MiniMax
 
 A decision rule that minimizes the possible loss for a worst case scenario.

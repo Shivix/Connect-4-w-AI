@@ -8,9 +8,10 @@ public:
     opponent();
     ~opponent();
     
-static int searchDepth;
+int searchDepth = -1;
 
     int miniMax(board gameBoard, int depth, int depthPos, bool isRed, int alpha, int beta);
+    void setSearchDepth();
 };
 
 

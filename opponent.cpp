@@ -6,8 +6,6 @@ opponent::opponent() = default;
 
 opponent::~opponent() = default;
 
-int opponent::searchDepth = -1;
-
 int opponent::miniMax(board gameBoard, int depth, int depthPos, bool isRed, int alpha, int beta){ // uses multiple parameters for use with recursion
     if(depthPos == 0){
         return gameBoard.evaluateBoard();
@@ -89,6 +87,24 @@ int opponent::miniMax(board gameBoard, int depth, int depthPos, bool isRed, int 
         else{
             return minEval;
         }
+    }
+}
+
+void opponent::setSearchDepth(){
+    std::cout << "Please type how many turns you would like the AI to look ahead:";
+    std::cin.exceptions(std::ios_base::failbit);
+    try{
+        std::cin >> searchDepth;
+        if(std::cin.gcount() >= 1){
+            throw std::invalid_argument("More than one number");
+        }
+        if(searchDepth <= 0){
+            throw std::invalid_argument("Less than 0");
+        }
+    }
+    catch(...) {
+        std::cout << "Incorrect value for search depth" << std::endl;
+        setSearchDepth();
     }
 }
 

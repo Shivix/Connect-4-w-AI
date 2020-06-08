@@ -48,14 +48,12 @@ bool board::applyMove(int movePos, bool isRed){
     if(movePos >= BOARD_WIDTH){
         return false;
     }
-
     int heightCounter = 0;
     for(heightCounter = 0; heightCounter < BOARD_HEIGHT; ++heightCounter){
         if(boardVec[heightCounter][movePos] != counter::empty){
             break;
         }
     }
-
     if(heightCounter == 0){
         return false;
     }
