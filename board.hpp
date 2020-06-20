@@ -19,13 +19,19 @@ public:
     };
     std::vector<std::vector<counter>> boardVec;
     std::vector<counter> emptyGameRow;
-    
+private:
+    bool gameWon = false;
+    int evaluation = 0;
+    int groupCount = 0;
+    counter groupType = board::counter::empty;
 public:
     board();
     ~board();
-    void draw();
     bool applyMove(int move, bool isRed);
+    void draw();
     int evaluateBoard();
+private:
+    void calculatescore();
 };
 
 
