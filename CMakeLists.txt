@@ -11,6 +11,6 @@ set(INCLUDES
         include/board.hpp
         include/opponent.hpp)
 
-add_compile_options(-Wall -Werror)
+add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 
 add_executable(connect4 ${SOURCES} ${INCLUDES})
