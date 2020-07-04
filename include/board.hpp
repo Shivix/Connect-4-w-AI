@@ -1,7 +1,7 @@
 #ifndef CONNECT4_BOARD_HPP
 #define CONNECT4_BOARD_HPP
 
-#include <vector>
+#include <array>
 
 #define BOARD_WIDTH  7
 #define BOARD_HEIGHT 6 // size of board
@@ -17,21 +17,26 @@ public:
         empty = 0,
         both = 2
     };
-    std::vector<std::vector<counter>> boardVec;
-    std::vector<counter> emptyGameRow;
+    std::array<std::array<counter, BOARD_WIDTH>, BOARD_HEIGHT> boardArray = {};
 private:
     bool gameWon = false;
     int evaluation = 0;
     int groupCount = 0;
-    counter groupType = board::counter::empty;
+    counter groupType = counter::empty;
+    
 public:
-    board();
-    ~board();
+    constexpr board(){
+        for(auto&& i: boardArray){
+            for(auto&& j: i){
+                j = counter::empty;
+            }
+        }
+    }
     bool applyMove(int move, bool isRed);
     void draw();
     int evaluateBoard();
 private:
-    void calculatescore();
+    void calculateScore();
 };
 
 
