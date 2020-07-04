@@ -24,7 +24,7 @@ private:
     counter groupType = counter::empty; // used to keep track of the counter colour it's evaluating
     
 public:
-    constexpr inline board(){
+    constexpr board(){
         for(auto&& i: boardArray){
             for(auto&& j: i){
                 j = counter::empty;
