@@ -66,7 +66,7 @@ int opponent::miniMax(board gameBoard, int depth, int depthPos, bool isRed, int 
                         minEval = Eval;
                         bestMove = moveCounter;
                     }
-                    beta=std::min(beta, Eval);
+                    beta = std::min(beta, Eval);
                 }
                 if(beta < alpha){
                     break;

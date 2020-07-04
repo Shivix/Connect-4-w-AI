@@ -20,7 +20,7 @@ int main()
                 while(!correctMove){
                     std::cin.clear();
                     std::cin >> move; // type the number of the column you want to drop a piece into (left most is column 0)
-                    if (move > board::BOARD_WIDTH - 1 || move < 0){
+                    if(move > board::BOARD_WIDTH - 1 || move < 0){
                         std::cout << "Incorrect input, please type a number between 0 and " << board::BOARD_WIDTH - 1 << "\n";
                     }
                     else{
@@ -43,7 +43,7 @@ int main()
             
             std::cout << "This board has a score of: " << gameBoard.evaluateBoard() << std::endl;
             
-            isRed = !isRed;
+            isRed = !isRed; // switch whose turn it is
             
             if(gameBoard.evaluateBoard() == WINNING_SCORE){
                 std::cout << "Red Wins!";
