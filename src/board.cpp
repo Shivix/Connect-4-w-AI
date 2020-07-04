@@ -4,7 +4,7 @@
 
 
 void board::calculateScore(){// - for yellow and + for red
-    if(groupCount > 0 && groupType != board::counter::both){
+    if(groupCount > 0 && groupType != counter::both){
         int groupScore = static_cast<int>(pow(groupCount, 4));
 
         if(groupCount == BOARD_CONNECT){
@@ -12,7 +12,7 @@ void board::calculateScore(){// - for yellow and + for red
             gameWon = true;
         }
 
-        if(groupType == board::counter::yellow){
+        if(groupType == counter::yellow){
             groupScore = -groupScore;
         }
         evaluation += groupScore;
@@ -24,10 +24,10 @@ void board::draw(){
         std::cout << " " << i;
     }
     std::cout << " \n";
-    for(auto heightCounter = 0; heightCounter < BOARD_HEIGHT; ++heightCounter){
-        for(auto widthCounter = 0; widthCounter < BOARD_WIDTH; ++widthCounter){
+    for(auto&& i: boardArray){
+        for(auto&& boardSlot: i){
             std::cout << "|";
-            switch(boardArray[heightCounter][widthCounter]){
+            switch(boardSlot){
                 case counter::empty: std::cout << " "; break;
                 case counter::red: std::cout << "R"; break;
                 case counter::yellow: std::cout << "Y"; break;
@@ -37,13 +37,13 @@ void board::draw(){
         std::cout << "|\n";
     }
     std::cout << "|";
-    for(auto baseCounter = 0; baseCounter < BOARD_WIDTH * 2 - 1; ++baseCounter){
+    for(auto baseIter = 0; baseIter < BOARD_WIDTH * 2 - 1; ++baseIter){
         std::cout << "=";
     }
     std::cout << "|\n";
 
     std::cout << "/";
-    for(auto feetCounter = 0; feetCounter < BOARD_WIDTH * 2 - 1; ++feetCounter){
+    for(auto feetIter = 0; feetIter < BOARD_WIDTH * 2 - 1; ++feetIter){
         std::cout << " ";
     }
     std::cout << "\\\n";
@@ -53,21 +53,21 @@ bool board::applyMove(int movePos, bool isRed){
     if(movePos >= BOARD_WIDTH){
         return false;
     }
-    int heightCounter = 0;
-    for(heightCounter = 0; heightCounter < BOARD_HEIGHT; ++heightCounter){
-        if(boardArray[heightCounter][movePos] != counter::empty){
+    int emptySlot; // track which slot of the board is empty
+    for(emptySlot = 0; emptySlot < BOARD_HEIGHT; ++emptySlot){
+        if(boardArray[emptySlot][movePos] != counter::empty){
             break;
         }
     }
-    if(heightCounter == 0){
+    if(emptySlot == 0){
         return false;
     }
-    --heightCounter;
+    --emptySlot;
     if(isRed){
-        boardArray[heightCounter][movePos] = counter::red;
+        boardArray[emptySlot][movePos] = counter::red;
     }
     else{
-        boardArray[heightCounter][movePos] = counter::yellow;
+        boardArray[emptySlot][movePos] = counter::yellow;
     }
     return true;
 }
@@ -76,28 +76,28 @@ int board::evaluateBoard(){
     evaluation = 0;
     gameWon = false;
     // loop through all game positions
-    for(int heightCounter = 0; heightCounter < BOARD_HEIGHT; ++heightCounter){
-        for(int widthCounter = 0; widthCounter < BOARD_WIDTH; ++widthCounter){
+    for(int heightIter = 0; heightIter < BOARD_HEIGHT; ++heightIter){
+        for(int widthIter = 0; widthIter < BOARD_WIDTH; ++widthIter){
             //                          check for east connect
-            if((widthCounter + BOARD_CONNECT - 1) < BOARD_WIDTH){ // if test area is not within board, skip
+            if((widthIter + BOARD_CONNECT - 1) < BOARD_WIDTH){ // if test area is not within board, skip
                 groupCount = 0; // reset group count
-                groupType = board::counter::empty;
+                groupType = counter::empty;
                 for(int emptyCounter = 0; emptyCounter < BOARD_CONNECT; ++emptyCounter){
-                    if(boardArray[(heightCounter)][(widthCounter + emptyCounter)] != board::counter::empty){ // if test area is not empty, skip
+                    if(boardArray[(heightIter)][(widthIter + emptyCounter)] != counter::empty){ // if test area is not empty, skip
                         ++groupCount;
 
-                        if(groupType == board::counter::empty){
-                            if(boardArray[heightCounter][widthCounter + emptyCounter] == board::counter::red){
-                                groupType = board::counter::red;
+                        if(groupType == counter::empty){
+                            if(boardArray[heightIter][widthIter + emptyCounter] == counter::red){
+                                groupType = counter::red;
                             }
                             else{
-                                groupType = board::counter::yellow;
+                                groupType = counter::yellow;
                             }
                         }
                         else{
-                            if((groupType == board::counter::red && boardArray[heightCounter][widthCounter + emptyCounter] == board::counter::yellow)
-                               ||(groupType == board::counter::yellow && boardArray[heightCounter][widthCounter + emptyCounter] == board::counter::red)){
-                                groupType = board::counter::both;
+                            if((groupType == counter::red && boardArray[heightIter][widthIter + emptyCounter] == counter::yellow)
+                               ||(groupType == counter::yellow && boardArray[heightIter][widthIter + emptyCounter] == counter::red)){
+                                groupType = counter::both;
                             }
                         }
                     }
@@ -105,25 +105,25 @@ int board::evaluateBoard(){
                 calculateScore();
             }
             //                                                  check for south connect
-            if((heightCounter + BOARD_CONNECT - 1) < BOARD_HEIGHT){
+            if((heightIter + BOARD_CONNECT - 1) < BOARD_HEIGHT){
                 groupCount = 0;
-                groupType = board::counter::empty;
+                groupType = counter::empty;
                 for(auto emptyCounter = 0; emptyCounter < BOARD_CONNECT; ++emptyCounter){
-                    if(boardArray[heightCounter + emptyCounter][widthCounter] != board::counter::empty){
+                    if(boardArray[heightIter + emptyCounter][widthIter] != counter::empty){
                         ++groupCount;
 
-                        if(groupType == board::counter::empty){
-                            if(boardArray[heightCounter + emptyCounter][widthCounter] == board::counter::red){
-                                groupType = board::counter::red;
+                        if(groupType == counter::empty){
+                            if(boardArray[heightIter + emptyCounter][widthIter] == counter::red){
+                                groupType = counter::red;
                             }
                             else{
-                                groupType = board::counter::yellow;
+                                groupType = counter::yellow;
                             }
                         }
                         else{
-                            if((groupType == board::counter::red && this->boardArray[heightCounter + emptyCounter][widthCounter] == board::counter::yellow)
-                               ||(groupType == board::counter::yellow && this->boardArray[heightCounter + emptyCounter][widthCounter] == board::counter::red)){
-                                groupType = board::counter::both;
+                            if((groupType == counter::red && this->boardArray[heightIter + emptyCounter][widthIter] == counter::yellow)
+                               ||(groupType == counter::yellow && this->boardArray[heightIter + emptyCounter][widthIter] == counter::red)){
+                                groupType = counter::both;
                             }
                         }
                     }
@@ -131,27 +131,27 @@ int board::evaluateBoard(){
                 calculateScore();
             }
             //                                      check for south east connect                                     
-            if(((heightCounter + BOARD_CONNECT - 1) < BOARD_HEIGHT) && ((widthCounter + BOARD_CONNECT - 1) < BOARD_WIDTH)){
+            if(((heightIter + BOARD_CONNECT - 1) < BOARD_HEIGHT) && ((widthIter + BOARD_CONNECT - 1) < BOARD_WIDTH)){
 
                 groupCount = 0;
-                groupType = board::counter::empty;
+                groupType = counter::empty;
                 for(auto emptyCounter = 0; emptyCounter < BOARD_CONNECT; ++emptyCounter){
 
-                    if(boardArray[heightCounter + emptyCounter][widthCounter + emptyCounter] != board::counter::empty){     // if test area is not empty, skip
+                    if(boardArray[heightIter + emptyCounter][widthIter + emptyCounter] != counter::empty){     // if test area is not empty, skip
                         ++groupCount;
 
-                        if(groupType == board::counter::empty){
-                            if(boardArray[heightCounter + emptyCounter][widthCounter + emptyCounter] == board::counter::red){
-                                groupType = board::counter::red;
+                        if(groupType == counter::empty){
+                            if(boardArray[heightIter + emptyCounter][widthIter + emptyCounter] == counter::red){
+                                groupType = counter::red;
                             }
                             else{
-                                groupType = board::counter::yellow;
+                                groupType = counter::yellow;
                             }
                         }
                         else{
-                            if((groupType == board::counter::red && this->boardArray[heightCounter + emptyCounter][widthCounter + emptyCounter] == board::counter::yellow)
-                               ||(groupType == board::counter::yellow && this->boardArray[heightCounter + emptyCounter][widthCounter + emptyCounter] == board::counter::red)){
-                                groupType = board::counter::both;
+                            if((groupType == counter::red && this->boardArray[heightIter + emptyCounter][widthIter + emptyCounter] == counter::yellow)
+                               ||(groupType == counter::yellow && this->boardArray[heightIter + emptyCounter][widthIter + emptyCounter] == counter::red)){
+                                groupType = counter::both;
                             }
                         }
                     }
@@ -159,26 +159,26 @@ int board::evaluateBoard(){
                 calculateScore();
             }
             //                                          check for south west connect                                                
-            if(((heightCounter + BOARD_CONNECT - 1) < BOARD_HEIGHT) && ((widthCounter - BOARD_CONNECT + 1) >= 0)){
+            if(((heightIter + BOARD_CONNECT - 1) < BOARD_HEIGHT) && ((widthIter - BOARD_CONNECT + 1) >= 0)){
                 groupCount = 0;
-                groupType = board::counter::empty;
+                groupType = counter::empty;
                 for(auto emptyCounter = 0; emptyCounter < BOARD_CONNECT; ++emptyCounter){
                     // if test area is not empty, skip
-                    if(boardArray[heightCounter + emptyCounter][widthCounter + -emptyCounter] != board::counter::empty){
+                    if(boardArray[heightIter + emptyCounter][widthIter + -emptyCounter] != counter::empty){
                         ++groupCount;
 
-                        if(groupType == board::counter::empty){
-                            if(boardArray[heightCounter + emptyCounter][widthCounter + -emptyCounter] == board::counter::red){
-                                groupType = board::counter::red;
+                        if(groupType == counter::empty){
+                            if(boardArray[heightIter + emptyCounter][widthIter + -emptyCounter] == counter::red){
+                                groupType = counter::red;
                             }
                             else{
-                                groupType = board::counter::yellow;
+                                groupType = counter::yellow;
                             }
                         }
                         else{
-                            if((groupType == board::counter::red && this->boardArray[heightCounter + emptyCounter][widthCounter + -emptyCounter] == board::counter::yellow)
-                               ||(groupType == board::counter::yellow && this->boardArray[heightCounter + emptyCounter][widthCounter + -emptyCounter] == board::counter::red)){
-                                groupType = board::counter::both;
+                            if((groupType == counter::red && this->boardArray[heightIter + emptyCounter][widthIter + -emptyCounter] == counter::yellow)
+                               ||(groupType == counter::yellow && this->boardArray[heightIter + emptyCounter][widthIter + -emptyCounter] == counter::red)){
+                                groupType = counter::both;
                             }
                         }
                     }
@@ -190,7 +190,7 @@ int board::evaluateBoard(){
     //                  Check if game won                   
     if(gameWon){
         if(evaluation > 0){
-            evaluation = WINNING_SCORE;
+            evaluation = WINNING_SCORE; // ensures the evaluation of a winning move is always prioritized over other moves
         }
         else{
             evaluation = -WINNING_SCORE;

@@ -11,9 +11,8 @@ int main()
     std::cout << "The AI will look " << opponent.searchDepth << " turns ahead. Good luck!" << std::endl;
     gameBoard.draw();
     int move = -1;
-    bool isRed = true;
+    bool isRed = true; // tracks who's turn it is
         while(true){
-
             //                            Input Move                                  
             if(isRed){
                 std::cout << "type your move: ";
@@ -21,8 +20,8 @@ int main()
                 while(!correctMove){
                     std::cin.clear();
                     std::cin >> move; // type the number of the column you want to drop a piece into (left most is column 0)
-                    if (move > BOARD_WIDTH - 1 || move < 0){
-                        std::cout << "Incorrect input, please type a number between 0 and " << BOARD_WIDTH - 1 << "\n";
+                    if (move > board::BOARD_WIDTH - 1 || move < 0){
+                        std::cout << "Incorrect input, please type a number between 0 and " << board::BOARD_WIDTH - 1 << "\n";
                     }
                     else{
                         correctMove = true;

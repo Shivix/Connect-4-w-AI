@@ -6,7 +6,6 @@
 class opponent{
 public:
     opponent();
-    ~opponent();
     
 int searchDepth = -1;
 

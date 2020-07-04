@@ -4,8 +4,6 @@
 
 opponent::opponent() = default;
 
-opponent::~opponent() = default;
-
 int opponent::miniMax(board gameBoard, int depth, int depthPos, bool isRed, int alpha, int beta){ // uses multiple parameters for use with recursion
     if(depthPos == 0){
         return gameBoard.evaluateBoard();
@@ -14,7 +12,7 @@ int opponent::miniMax(board gameBoard, int depth, int depthPos, bool isRed, int 
     if(isRed){
         int maxEvaluation = -WINNING_SCORE;
         int bestMove = -1;
-        for(int moveCounter = 0; moveCounter < BOARD_WIDTH; ++moveCounter){
+        for(int moveCounter = 0; moveCounter < board::BOARD_WIDTH; ++moveCounter){
             board testBoard;
             testBoard = gameBoard;
             if (testBoard.applyMove(moveCounter, isRed)){
@@ -53,7 +51,7 @@ int opponent::miniMax(board gameBoard, int depth, int depthPos, bool isRed, int 
     else{
         int minEval = WINNING_SCORE;
         int bestMove = -1;
-        for(auto moveCounter = 0; moveCounter < BOARD_WIDTH; ++moveCounter){
+        for(auto moveCounter = 0; moveCounter < board::BOARD_WIDTH; ++moveCounter){
             board testBoard;
             testBoard = gameBoard;
             if (testBoard.applyMove(moveCounter, isRed)){
