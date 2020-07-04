@@ -4,12 +4,12 @@ project(connect4)
 set(CMAKE_CXX_STANDARD 17)
 
 set(SOURCES
-        board.cpp
-        opponent.cpp
-        main.cpp)
+        src/board.cpp
+        src/opponent.cpp
+        src/main.cpp)
 set(INCLUDES
-        board.hpp
-        opponent.hpp)
+        include/board.hpp
+        include/opponent.hpp)
 
 add_compile_options(-Wall -Werror)
 
