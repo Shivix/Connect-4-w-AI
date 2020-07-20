@@ -19,7 +19,7 @@ void board::calculateScore(){// - for yellow and + for red
     }
 }
 
-void board::draw(){
+void board::draw() const{
     for (auto i = 0; i < BOARD_WIDTH; ++i){
         std::cout << " " << i;
     }

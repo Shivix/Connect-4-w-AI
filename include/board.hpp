@@ -26,13 +26,11 @@ private:
 public:
     constexpr board(){
         for(auto&& i: boardArray){
-            for(auto&& j: i){
-                j = counter::empty;
-            }
+            i.fill(counter::empty);
         }
     }
     bool applyMove(int move, bool isRed);
-    void draw(); // outputs the board state in console
+    void draw() const; // outputs the board state in console
     int evaluateBoard(); // returns a score based on connections of the same colour
 private:
     void calculateScore();

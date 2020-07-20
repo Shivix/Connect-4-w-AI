@@ -1,8 +1,13 @@
 #include <iostream>
 #include "../include/opponent.hpp"
+#include "../include/board.hpp"
 
-
-opponent::opponent() = default;
+opponent::opponent():
+searchDepth(setSearchDepth())
+{}
+[[maybe_unused]] opponent::opponent(int searchDepth):
+        searchDepth(searchDepth)
+{}
 
 int opponent::miniMax(board gameBoard, int depth, int depthPos, bool isRed, int alpha, int beta){ // uses multiple parameters for use with recursion
     if(depthPos == 0){
@@ -88,7 +93,11 @@ int opponent::miniMax(board gameBoard, int depth, int depthPos, bool isRed, int 
     }
 }
 
-void opponent::setSearchDepth(){
+int opponent::getSearchDepth() const noexcept {
+    return searchDepth;
+}
+
+int opponent::setSearchDepth(){
     std::cout << "Please type how many turns you would like the AI to look ahead:";
     std::cin.exceptions(std::ios_base::failbit);
     try{
@@ -104,5 +113,5 @@ void opponent::setSearchDepth(){
         std::cout << "Incorrect value for search depth" << std::endl;
         setSearchDepth();
     }
+    return searchDepth;
 }
-

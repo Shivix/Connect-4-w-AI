@@ -7,8 +7,7 @@ int main()
     board gameBoard;
     opponent opponent;
     std::cout << "Welcome to Connect 4. ";
-    opponent.setSearchDepth();
-    std::cout << "The AI will look " << opponent.searchDepth << " turns ahead. Good luck!" << std::endl;
+    std::cout << "The AI will look " << opponent.getSearchDepth() << " turns ahead. Good luck!" << std::endl;
     gameBoard.draw();
     int move = -1;
     bool isRed = true; // tracks who's turn it is
@@ -16,15 +15,19 @@ int main()
             //                            Input Move                                  
             if(isRed){
                 std::cout << "type your move: ";
-                bool correctMove = false;
-                while(!correctMove){
-                    std::cin.clear();
-                    std::cin >> move; // type the number of the column you want to drop a piece into (left most is column 0)
-                    if(move > board::BOARD_WIDTH - 1 || move < 0){
-                        std::cout << "Incorrect input, please type a number between 0 and " << board::BOARD_WIDTH - 1 << "\n";
+                while(true){
+                    try{
+                        std::cin.clear();
+                        std::cin >> move; // type the number of the column you want to drop a piece into (left most is column 0)
+                        if(move > board::BOARD_WIDTH - 1 || move < 0){
+                            throw std::invalid_argument("Bad input");
+                        }
+                        else{
+                            break;
+                        }
                     }
-                    else{
-                        correctMove = true;
+                    catch(std::invalid_argument&){
+                        std::cout << "Incorrect input, please type a number between 0 and " << board::BOARD_WIDTH - 1 << "\n";
                     }
                 }
             }
@@ -34,7 +37,7 @@ int main()
                 //                                       minimax move                       
                 int alpha = -WINNING_SCORE;
                 int beta = WINNING_SCORE;
-                move = opponent.miniMax(gameBoard, opponent.searchDepth, opponent.searchDepth, false, alpha, beta);
+                move = opponent.miniMax(gameBoard, opponent.getSearchDepth(), opponent.getSearchDepth(), false, alpha, beta);
                 std::cout << move << "\n";
             }
 
