@@ -116,8 +116,8 @@ int board::evaluateBoard(){
                             }
                         }
                         else{
-                            if((groupType == counter::red && this->boardArray[heightIter + emptyCounter][widthIter] == counter::yellow)
-                               ||(groupType == counter::yellow && this->boardArray[heightIter + emptyCounter][widthIter] == counter::red)){
+                            if((groupType == counter::red && boardArray[heightIter + emptyCounter][widthIter] == counter::yellow)
+                               ||(groupType == counter::yellow && boardArray[heightIter + emptyCounter][widthIter] == counter::red)){
                                 groupType = counter::both;
                             }
                         }
@@ -144,8 +144,8 @@ int board::evaluateBoard(){
                             }
                         }
                         else{
-                            if((groupType == counter::red && this->boardArray[heightIter + emptyCounter][widthIter + emptyCounter] == counter::yellow)
-                               ||(groupType == counter::yellow && this->boardArray[heightIter + emptyCounter][widthIter + emptyCounter] == counter::red)){
+                            if((groupType == counter::red && boardArray[heightIter + emptyCounter][widthIter + emptyCounter] == counter::yellow)
+                               ||(groupType == counter::yellow && boardArray[heightIter + emptyCounter][widthIter + emptyCounter] == counter::red)){
                                 groupType = counter::both;
                             }
                         }
@@ -171,8 +171,8 @@ int board::evaluateBoard(){
                             }
                         }
                         else{
-                            if((groupType == counter::red && this->boardArray[heightIter + emptyCounter][widthIter + -emptyCounter] == counter::yellow)
-                               ||(groupType == counter::yellow && this->boardArray[heightIter + emptyCounter][widthIter + -emptyCounter] == counter::red)){
+                            if((groupType == counter::red && boardArray[heightIter + emptyCounter][widthIter + -emptyCounter] == counter::yellow)
+                               ||(groupType == counter::yellow && boardArray[heightIter + emptyCounter][widthIter + -emptyCounter] == counter::red)){
                                 groupType = counter::both;
                             }
                         }
@@ -185,16 +185,16 @@ int board::evaluateBoard(){
     //                  Check if game won                   
     if(gameWon){
         if(evaluation > 0){
-            evaluation = WINNING_SCORE; // ensures the evaluation of a winning move is always prioritized over other moves
+            evaluation = -WINNING_SCORE; // ensures the evaluation of a winning move is always prioritized over other moves
         }
         else{
-            evaluation = -WINNING_SCORE;
+            evaluation = WINNING_SCORE;
         }
     }
     return evaluation;
 }
 
-void board::switchTurn(){ // switch between the red and yellow player's turn
+void board::switchTurn() noexcept { // switch between the red and yellow player's turn
     if(turn == counter::red){
         turn = counter::yellow;
     }
@@ -203,6 +203,6 @@ void board::switchTurn(){ // switch between the red and yellow player's turn
     }
 }
 
-board::counter board::getTurn(){
+board::counter board::getTurn() const noexcept {
     return turn;
 }

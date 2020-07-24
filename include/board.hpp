@@ -40,8 +40,8 @@ public:
     bool applyMove(int move);
     void draw() const; // outputs the board state in console
     int evaluateBoard(); // returns a score based on connections of the same colour
-    void switchTurn();
-    counter getTurn();
+    void switchTurn() noexcept;
+    counter getTurn() const noexcept;
 private:
     void calculateScore();
 };
