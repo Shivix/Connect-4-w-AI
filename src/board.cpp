@@ -49,7 +49,7 @@ void board::draw() const{
     std::cout << "\\\n";
 }
 
-bool board::applyMove(int movePos, bool isRed){
+bool board::applyMove(int movePos){
     if(movePos >= BOARD_WIDTH){
         return false;
     }
@@ -63,12 +63,7 @@ bool board::applyMove(int movePos, bool isRed){
         return false;
     }
     --emptySlot;
-    if(isRed){
-        boardArray[emptySlot][movePos] = counter::red;
-    }
-    else{
-        boardArray[emptySlot][movePos] = counter::yellow;
-    }
+    boardArray[emptySlot][movePos] = getTurn();
     return true;
 }
 
@@ -197,4 +192,17 @@ int board::evaluateBoard(){
         }
     }
     return evaluation;
+}
+
+void board::switchTurn(){ // switch between the red and yellow player's turn
+    if(turn == counter::red){
+        turn = counter::yellow;
+    }
+    else{
+        turn = counter::red;
+    }
+}
+
+board::counter board::getTurn(){
+    return turn;
 }

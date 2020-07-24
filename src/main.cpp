@@ -10,10 +10,9 @@ int main()
     std::cout << "The AI will look " << opponent.getSearchDepth() << " turns ahead. Good luck!" << std::endl;
     gameBoard.draw();
     int move = -1;
-    bool isRed = true; // tracks who's turn it is
         while(true){
             //                            Input Move                                  
-            if(isRed){
+            if(gameBoard.getTurn() == board::counter::red){
                 std::cout << "type your move: ";
                 while(true){
                     try{
@@ -35,18 +34,18 @@ int main()
                 std::cout << "Computers turn:";
                 
                 //                                       minimax move                       
-                int alpha = -WINNING_SCORE;
-                int beta = WINNING_SCORE;
-                move = opponent.miniMax(gameBoard, opponent.getSearchDepth(), opponent.getSearchDepth(), false, alpha, beta);
+                opponent.alpha = -WINNING_SCORE;
+                opponent.beta = WINNING_SCORE;
+                move = opponent.evaluateMove(gameBoard, opponent.getSearchDepth());
                 std::cout << move << "\n";
             }
 
-            gameBoard.applyMove(move, isRed);
+            gameBoard.applyMove(move);
             gameBoard.draw();
             
             std::cout << "This board has a score of: " << gameBoard.evaluateBoard() << std::endl;
             
-            isRed = !isRed; // switch whose turn it is
+            gameBoard.switchTurn();
             
             if(gameBoard.evaluateBoard() == WINNING_SCORE){
                 std::cout << "Red Wins!";

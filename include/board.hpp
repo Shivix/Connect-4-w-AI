@@ -22,6 +22,7 @@ private:
     int evaluation = 0; // score given to the board based on connections of the same colour
     int groupCount = 0; // amount of the same colour counters in a row
     counter groupType = counter::empty; // used to keep track of the counter colour it's evaluating
+    counter turn = counter::red; // tracks who's turn it is
     
 public:
     constexpr board(){
@@ -29,9 +30,18 @@ public:
             i.fill(counter::empty);
         }
     }
-    bool applyMove(int move, bool isRed);
+    constexpr explicit board(counter turn):
+    turn(turn)
+    {
+        for(auto&& i: boardArray){
+            i.fill(counter::empty);
+        }
+    }
+    bool applyMove(int move);
     void draw() const; // outputs the board state in console
     int evaluateBoard(); // returns a score based on connections of the same colour
+    void switchTurn();
+    counter getTurn();
 private:
     void calculateScore();
 };
