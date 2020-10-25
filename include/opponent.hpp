@@ -1,6 +1,8 @@
 #ifndef CONNECT4_OPPONENT_HPP
 #define CONNECT4_OPPONENT_HPP
 
+#include <climits>
+
 class board;
 
 class opponent{
