@@ -2,8 +2,9 @@
 #define CONNECT4_BOARD_HPP
 
 #include <array>
+#include <bits/stdc++.h>
 
-#define WINNING_SCORE INT_MAX // the score given for connecting 4, may need to adjust to ensure connecting 4 is always the optimal move
+constexpr int WINNING_SCORE = INT_MAX; // the score given for connecting 4, may need to adjust to ensure connecting 4 is always the optimal move
 
 class board{
 public:
