@@ -32,8 +32,8 @@ int opponent::setSearchDepth(){
             throw std::invalid_argument("Less than 0");
         }
     }
-    catch(...) {
-        std::cout << "Incorrect value for search depth" << std::endl;
+    catch(std::exception& exception) {
+        std::cout << exception.what() << std::endl;
         setSearchDepth();
     }
     return searchDepth;
